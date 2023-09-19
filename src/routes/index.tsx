@@ -1,6 +1,5 @@
 import React, { lazy, FC } from "react";
 
-import Dashboard from "@/pages/dashboard";
 import LoginPage from "@/pages/login";
 import LayoutPage from "@/pages/layout";
 import WrapperRouteComponent from "./config";
@@ -15,10 +14,6 @@ const routeList: RouteObject[] = [
     path: "/",
     element: <WrapperRouteComponent auth={false} ><LayoutPage /></WrapperRouteComponent>,
     children: [
-      {
-        path: "/dashboard",
-        element: <WrapperRouteComponent><Dashboard /></WrapperRouteComponent>,
-      },
       {
         path: "login",
         element: <LoginPage />,

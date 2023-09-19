@@ -1,4 +1,4 @@
-import { Tag, Space, Menu } from "antd";
+import { Tag, Space, Menu, Slider } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import React from "react";
 
@@ -11,6 +11,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "@/stores/user";
 import SelectLang from "./SelectLang";
 import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg';
+import { ProFormSlider } from "@ant-design/pro-form";
 
 export type SiderTheme = "light" | "dark";
 
@@ -33,34 +34,35 @@ const GlobalHeaderRight: React.FC = () => {
     className = `${classes.right} ${classes.dark}`;
   }
   return (
-    <Space className={className}>
-      <HeaderSearch
-        className={`${classes.action} ${classes.search}`}
-        placeholder="站内搜索"
-        defaultValue="Ant Design"
-        options={[
-          {
-            label: <a href="next.ant.design">Ant Design</a>,
-            value: "Ant Design",
-          },
-          {
-            label: <a href="https://protable.ant.design/">Pro Table</a>,
-            value: "Pro Table",
-          },
-          {
-            label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-            value: "Pro Layout",
-          },
-        ]}
-        onSearch={value => {
-          console.log('input', value);
-        }}
-      />
+    <Space direction="horizontal"><ProFormSlider width={"lg"} defaultValue={50}/></Space>
+    // <Space className={className}>
+    //   <HeaderSearch
+    //     className={`${classes.action} ${classes.search}`}
+    //     placeholder="站内搜索"
+    //     defaultValue="Ant Design"
+    //     options={[
+    //       {
+    //         label: <a href="next.ant.design">Ant Design</a>,
+    //         value: "Ant Design",
+    //       },
+    //       {
+    //         label: <a href="https://protable.ant.design/">Pro Table</a>,
+    //         value: "Pro Table",
+    //       },
+    //       {
+    //         label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
+    //         value: "Pro Layout",
+    //       },
+    //     ]}
+    //     onSearch={value => {
+    //       console.log('input', value);
+    //     }}
+    //   />
       
-      <Avatar />
+    //   <Avatar />
 
       
-    </Space>
+    // </Space>
   );
 };
 export default GlobalHeaderRight;

@@ -9,7 +9,7 @@ import { useLogin } from "@/api";
 
 import styles from "./index.module.less";
 import { ReactComponent as LogoSvg } from "@/assets/logo/logo.svg";
-import { AttributionControl, Circle, FeatureGroup, MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { AttributionControl, Circle, FeatureGroup, MapContainer, Marker, Popup, TileLayer, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css"
 import { EditControl } from "react-leaflet-draw";
@@ -46,7 +46,7 @@ const LoginForm: FC = () => {
 
   return (
     <div>
-      <MapContainer attributionControl={false} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer zoomControl={false} attributionControl={false} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
         
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -70,6 +70,8 @@ const LoginForm: FC = () => {
     />
     <Circle center={[51.51, -0.06]} radius={200} />
   </FeatureGroup>
+  
+  <ZoomControl position='topleft' zoomInTitle="Увеличить" zoomOutTitle="Уменьшить"/>
       </MapContainer>
     </div>
     // <div className={styles.container}>

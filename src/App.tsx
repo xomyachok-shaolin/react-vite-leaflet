@@ -6,8 +6,6 @@ import { localeConfig } from "@/config/locale";
 import { ConfigProvider } from "antd";
 import enUS from "antd/es/locale/en_US";
 import zhCN from "antd/es/locale/zh_CN";
-import moment from "moment";
-import "moment/dist/locale/zh-cn";
 import RenderRouter from "./routes";
 
 import "./App.less";
