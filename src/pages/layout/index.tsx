@@ -27,13 +27,13 @@ const IconMap: { [key: string]: React.ReactNode } = {
 };
 
 const LayoutPage: FC = ({ children }) => {
-  const { data: menuList, error } = useGetCurrentMenus();
+  // const { data: menuList, error } = useGetCurrentMenus();
   
   const [user, setUser] = useRecoilState(userState);
   const [pathname, setPathname] = useState("/welcome");
   const { device, collapsed, newUser, settings } = user;
   const isMobile = device === "MOBILE";
-  const { driverStart } = useGuide();
+  // const { driverStart } = useGuide();
   const location = useLocation();
   const navigate = useNavigate();
   const { formatMessage } = useLocale();
@@ -62,10 +62,10 @@ const LayoutPage: FC = ({ children }) => {
     return MenuListAll;
   };
 
-  useEffect(() => {
-    newUser && driverStart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newUser]);
+  // useEffect(() => {
+  //   newUser && driverStart();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [newUser]);
 
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
     if (!menus) return [];
@@ -81,13 +81,13 @@ const LayoutPage: FC = ({ children }) => {
 
   return (
     <ProLayout
-      fixSiderbar
-      collapsed={collapsed}
+      
+      collapsed={undefined}
       location={{
         pathname: location.pathname,
       }}
       {...settings}
-      onCollapse={toggle}
+      onCollapse={undefined}
       formatMessage={formatMessage}
       onMenuHeaderClick={() => history.push("https://reactjs.org/")}
       headerTitleRender={(logo, title, props) => (
@@ -113,7 +113,7 @@ const LayoutPage: FC = ({ children }) => {
       breadcrumbRender={(routers = []) => [
         {
           path: "/",
-          breadcrumbName: formatMessage({ id: "menu.home" }),
+          breadcrumbName: "Главная",
         },
         ...routers,
       ]}
@@ -125,25 +125,11 @@ const LayoutPage: FC = ({ children }) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      menuDataRender={() => loopMenuItem(menuList)}
+      //menuDataRender={() => loopMenuItem(menuList)}
       // menuDataRender={() => m}
       rightContentRender={() => <RightContent />}
       footerRender={() => <Footer />}
-      collapsedButtonRender={() => {
-        return (
-          <div
-            onClick={() => toggle}
-            style={{
-              cursor: "pointer",
-              fontSize: "16px",
-            }}
-          >
-            <span id="sidebar-trigger">
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </span>
-          </div>
-        );
-      }}
+      collapsedButtonRender={false}
     >
       <Outlet />
     </ProLayout>

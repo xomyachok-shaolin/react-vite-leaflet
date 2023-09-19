@@ -13,11 +13,15 @@ const routeList: RouteObject[] = [
 
   {
     path: "/",
-    element: <WrapperRouteComponent auth={true} ><LayoutPage /></WrapperRouteComponent>,
+    element: <WrapperRouteComponent auth={false} ><LayoutPage /></WrapperRouteComponent>,
     children: [
       {
         path: "/dashboard",
         element: <WrapperRouteComponent><Dashboard /></WrapperRouteComponent>,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
       },
       {
         path: "/project/list",
@@ -29,10 +33,7 @@ const routeList: RouteObject[] = [
       },
     ],
   },
-  {
-    path: "login",
-    element: <LoginPage />,
-  },
+  
 ];
 
 const RenderRouter: FC = () => {

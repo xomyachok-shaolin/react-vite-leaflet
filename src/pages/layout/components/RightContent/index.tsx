@@ -56,35 +56,10 @@ const GlobalHeaderRight: React.FC = () => {
           console.log('input', value);
         }}
       />
-      <HeaderDropdown
-      className={classes.action}
-
-        overlay={
-          <Menu>
-            <Menu.Item
-              onClick={() => {
-                window.open("/~docs");
-              }}
-            >
-              文档
-            </Menu.Item>
-            <Menu.Item
-              onClick={() => {
-                window.open("https://pro.ant.design/docs/getting-started");
-              }}
-            >
-              Ant Design Pro 文档
-            </Menu.Item>
-          </Menu>
-        }
-      >
-        <span>
-          <QuestionCircleOutlined />
-        </span>
-      </HeaderDropdown>
+      
       <Avatar />
 
-      <SelectLang className={classes.action} />
+      
     </Space>
   );
 };

@@ -3,6 +3,7 @@ import moment from "moment";
 import { Modal, Form, Input } from "antd";
 import ProForm, {
   ModalForm,
+  ProFormColorPicker,
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-form";
@@ -63,26 +64,37 @@ const OperationModal: FC<OperationModalProps> = (props) => {
       <Form {...formLayout} form={form} ref={formRef} onFinish={handleFinish}>
         <ProFormText
           name="name"
-          label={formatMessage({ id: "app.project.name" })}
+          label="name"
           rules={[
             {
               required: true,
-              message: formatMessage({ id: "app.project.nameRequired" }),
+              message: "app.project.nameRequired",
             },
           ]}
         ></ProFormText>
 
         <ProFormTextArea
           name="description"
-          label={formatMessage({ id: "app.project.description" })}
+          label="description"
           rules={[
             {
               required: true,
-              message: formatMessage({ id: "app.project.descriptionRequired" }),
+              message: "app.project.descriptionRequired",
               min: 5,
             },
           ]}
         />
+
+<ProFormColorPicker
+          name="color"
+          label="color"
+  popup
+  blockStyles={{
+    width: '30px',
+    height: '30px',
+    borderRadius: '50%',
+  }}
+/>
       </Form>
     );
   };

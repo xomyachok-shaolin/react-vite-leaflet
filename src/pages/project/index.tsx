@@ -2,13 +2,16 @@ import { LocaleFormatter, useLocale } from "@/locales";
 import { FooterToolbar, PageContainer } from "@ant-design/pro-layout";
 import type { ProColumns, ActionType } from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
-import { Button, message, Modal, PaginationProps } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Card, Dropdown, List, Menu, message, Modal, PaginationProps, Progress, Space, Tag } from "antd";
+import { PlusOutlined, EllipsisOutlined, SmileOutlined, EyeInvisibleOutlined, SecurityScanOutlined } from "@ant-design/icons";
 
 import React, { useEffect, useRef, useState } from "react";
 import { findDOMNode } from "react-dom";
 import OperationModal from "./components/OperationModal";
 import { useAddProject, useBatchDeleteProject, useGetProjects, useUpdateProject } from "@/api";
+import { ProCard, ProList } from "@ant-design/pro-components";
+
+
 
 const TableList = () => {
   const { formatMessage } = useLocale();
@@ -33,24 +36,24 @@ const TableList = () => {
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<API.Project[]>([]);
 
-  const { data, error, isLoading, refetch } = useGetProjects(pagination, filters);
+  // const { data, error, isLoading, refetch } = useGetProjects(pagination, filters);
 
   const { mutateAsync } = useAddProject();
   const { mutateAsync: update } = useUpdateProject();
   const { mutateAsync: batchDelete } = useBatchDeleteProject();
 
-  useEffect(() => {
-    setProjects(data?.list);
-    setPagination({
-      ...pagination,
-      total: data?.total,
-      showQuickJumper: true,
-    });
-  }, [data]);
+  // useEffect(() => {
+  //   setProjects(data?.list);
+  //   setPagination({
+  //     ...pagination,
+  //     total: data?.total,
+  //     showQuickJumper: true,
+  //   });
+  // }, [data]);
 
-  useEffect(() => {
-    refetch();
-  }, [pagination.current, pagination.pageSize, filters]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [pagination.current, pagination.pageSize, filters]);
 
   const showModal = () => {
     setVisible(true);
@@ -134,78 +137,138 @@ const TableList = () => {
     }
   };
 
-  const columns: ProColumns<API.Project>[] = [
-    {
-      title: formatMessage({ id: "app.project.name" }),
-      dataIndex: "name",
-      tip: "项目名称是唯一的 key",
-      sorter: true,
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrent(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
-    },
-    {
-      title: formatMessage({ id: "app.project.description" }),
-      dataIndex: "description",
-      valueType: "textarea",
-      sorter: true,
-    },
-    {
-      title: formatMessage({ id: "app.project.updateAt" }),
-      dataIndex: 'updatedAt',
-      sorter: true,
-      valueType: 'dateTime',
-      hideInForm: true,
-    },
-    {
-      title: formatMessage({ id: "gloabal.tips.operation" }),
-      dataIndex: "option",
-      valueType: "option",
-      render: (_, record) => [
-        <a
-          key="edit"
-          onClick={(e) => {
-            e.preventDefault();
-            showEditModal(record);
+
+  const data = [
+    'TechUI',
+    'TechUI 2.0',
+    'Bigfish',
+    'Umi',
+    'Ant Design Pro',
+  ].map((item) => ({
+    title: item,
+    subTitle: <Tag color="#5BD8A6">语雀专栏</Tag>,
+    actions: [<a key="run">邀请</a>, <a key="delete">删除</a>],
+    avatar:
+      'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg',
+    content: (
+      <div
+        style={{
+          flex: 1,
+        }}
+      >
+        <div
+          style={{
+            width: 200,
           }}
         >
-          {formatMessage({ id: "gloabal.tips.modify" })}
-        </a>,
-        <a
-          key="delete"
-          onClick={(e) => {
-            e.preventDefault();
-            Modal.confirm({
-              title: "删除項目",
-              content: "确定删除该項目吗？",
-              okText: "确认",
-              cancelText: "取消",
-              onOk: async () => {
-                await handleRemove([{ ...record }]);
-                setSelectedRows([]);
-                refetch();
-              },
-            });
-          }}
-        >
-          {formatMessage({ id: "gloabal.tips.delete" })}
-        </a>,
-      ],
-    },
+          <div>发布中</div>
+          <Progress percent={80} />
+        </div>
+      </div>
+    ),
+  }));
+
+  // title, description, updatedAt, evaluated, predicted, action
+  const listData = [
+    { id: 1, title: 'item 1',updatedAt:'1-1-2023', description: 'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg' },
+    { id: 2, title: 'item 2' },
+    { id: 3, title: 'item 3' },
   ];
 
   return (
     <PageContainer>
-      <ProTable<API.Project>
+      <Button style={{ marginBottom: '10px' }} type="primary" key="primary" onClick={showModal}>
+        <PlusOutlined /> Создать
+      </Button>
+      <ProList<any>
+        ghost
+        // itemCardProps={{
+        //   ghost: true,
+        //   style: { backgroundColor: "#FA8072ff", border: 0, },
+        //   bodyStyle: { backgroundColor: '#FA807280', border: 0, borderRadius: "3px" }
+        // }}
+        renderItem={(item) => (
+          <List.Item>
+            <Card
+              style={{
+                borderRadius: "7px",
+                overflow: "hidden",
+                border: 0,
+              }}
+              hoverable
+
+              headStyle={{ backgroundColor: '#8A2BE2', color: "#ffffff" }}
+              // 30=4D, 35=59, 40=66, 50=80, 55=8C, 60=99, 65=A6, 70=B3, 75=BF, 80=CC, 85=D9
+              bodyStyle={{ backgroundColor: '#8A2BE2' + '4D', color: "#646676", 
+                
+                wordWrap: "break-word" }}
+              title={item.title}
+              extra={<Space direction="vertical" >
+                <Dropdown overlay={<Menu>
+                  <Menu.Item key="1">
+                    <a target="_blank" rel="noopener noreferrer" href="">
+                      редактировать
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="2" danger>удалить</Menu.Item>
+                </Menu>}>
+                  <a onClick={(e) => e.preventDefault()}>
+
+                    <EllipsisOutlined style={{ float: "right", color: "#ffffff" }} />
+                  </a>
+                </Dropdown>
+                <Space>
+                <SecurityScanOutlined style={{ color: "#ffffff" }}/> 
+                {/* <SecurityScanOutlined /> */}
+                <EyeInvisibleOutlined style={{ color: "#ffffff" }} />
+                </Space>
+                </Space>
+              }>
+                
+              <div>{item.description}</div>
+              <div style={{paddingTop: '24px'}}>{item.updatedAt}</div>
+            </Card>
+          </List.Item>
+        )}
+        pagination={{
+          defaultPageSize: 8,
+          showSizeChanger: false,
+        }}
+        //showActions="hover"
+        rowSelection={{}}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 4,
+          lg: 4,
+          xl: 6,
+          xxl: 3,
+        }}
+        onItem={(record: any) => {
+          return {
+            onMouseEnter: () => {
+              console.log(record);
+            },
+            onClick: () => {
+              console.log(record);
+            },
+          };
+        }}
+        metas={{
+          title: {},
+          subTitle: {},
+          type: {},
+          avatar: {},
+          content: {},
+          actions: {
+            cardActionProps: "extra",
+          },
+        }}
+        // headerTitle="卡片列表展示"
+        dataSource={listData}
+      />
+      {/* <ProTable<API.Project>
         headerTitle={formatMessage({
           id: 'app.project.title',
           defaultMessage: '项目管理',
@@ -276,7 +339,7 @@ const TableList = () => {
             <LocaleFormatter id="app.project.batchDeletion" />
           </Button>
         </FooterToolbar>
-      )}
+      )} */}
 
       <OperationModal
         done={done}

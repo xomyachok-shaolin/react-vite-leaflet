@@ -4,16 +4,16 @@ const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
 } = {
-  navTheme: 'dark',
+  navTheme: 'light',
   // 拂晓蓝
   primaryColor: '#1890ff',
-  layout: 'mix',
+  layout: 'top',
   contentWidth: 'Fluid',
   fixedHeader: false,
-  fixSiderbar: true,
   colorWeak: false,
   title: '项目管理',
   pwa: false,
+  headerTheme: 'light',
   iconfontUrl: '',
 };
 
