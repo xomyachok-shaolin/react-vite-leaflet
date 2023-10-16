@@ -9,9 +9,6 @@ import HeaderSearch from "../HeaderSearch";
 import classes from "./index.module.less";
 import { useRecoilState } from "recoil";
 import { userState } from "@/stores/user";
-import SelectLang from "./SelectLang";
-import { ReactComponent as LanguageSvg } from '@/assets/header/language.svg';
-import { ProFormSlider } from "@ant-design/pro-form";
 
 export type SiderTheme = "light" | "dark";
 
@@ -34,7 +31,7 @@ const GlobalHeaderRight: React.FC = () => {
     className = `${classes.right} ${classes.dark}`;
   }
   return (
-    <Space direction="horizontal"><ProFormSlider width={"lg"} defaultValue={50}/></Space>
+    <Space direction="horizontal"></Space>
     // <Space className={className}>
     //   <HeaderSearch
     //     className={`${classes.action} ${classes.search}`}

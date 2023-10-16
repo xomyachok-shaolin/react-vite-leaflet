@@ -12,7 +12,7 @@ import { ReactComponent as LogoSvg } from "@/assets/logo/logo.svg";
 import { AttributionControl, Circle, FeatureGroup, MapContainer, Marker, Popup, TileLayer, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css"
-import { EditControl } from "react-leaflet-draw";
+//import { EditControl } from "react-leaflet-draw";
 window.type = ''
 
 import drawLocales from 'leaflet-draw-locales'
@@ -59,7 +59,7 @@ const LoginForm: FC = () => {
           </Popup>
         </Marker>
         <FeatureGroup>
-    <EditControl
+    {/* <EditControl
       position='topright'
       // onEdited={this._onEditPath}
       // onCreated={this._onCreate}
@@ -67,7 +67,7 @@ const LoginForm: FC = () => {
       // draw={{
       //   rectangle: false
       // }}
-    />
+    /> */}
     <Circle center={[51.51, -0.06]} radius={200} />
   </FeatureGroup>
   

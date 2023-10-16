@@ -1,4 +1,4 @@
-import { LocaleFormatter, useLocale } from "@/locales";
+
 import { FooterToolbar, PageContainer } from "@ant-design/pro-layout";
 import type { ProColumns, ActionType } from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
@@ -14,7 +14,6 @@ import { ProCard, ProList } from "@ant-design/pro-components";
 
 
 const TableList = () => {
-  const { formatMessage } = useLocale();
 
   const addBtn = useRef(null);
 

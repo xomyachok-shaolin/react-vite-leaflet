@@ -7,6 +7,7 @@ import { useRoutes, RouteObject } from "react-router-dom";
 
 const NotFound = lazy(() => import('@/pages/404'));
 const Project = lazy(() => import('@/pages/project'));
+const Permission = lazy(() => import('@/pages/permission'));
 
 const routeList: RouteObject[] = [
 
@@ -21,6 +22,10 @@ const routeList: RouteObject[] = [
       {
         path: "/project/list",
         element: <WrapperRouteComponent><Project /></WrapperRouteComponent>,
+      },
+      {
+        path: "/permission/list",
+        element: <WrapperRouteComponent><Permission /></WrapperRouteComponent>,
       },
       {
         path: "*",

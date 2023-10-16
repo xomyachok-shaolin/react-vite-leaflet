@@ -11,10 +11,9 @@ import type { MenuDataItem } from "@ant-design/pro-layout";
 import ProLayout from "@ant-design/pro-layout";
 import { SmileOutlined, HeartOutlined, FrownOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useLocale } from "@/locales";
 import { createBrowserHistory } from "history";
 import RightContent from "./components/RightContent";
-import { ReactComponent as LogoSvg } from "@/assets/logo/react.svg";
+import { ReactComponent as LogoSvg } from "@/assets/logo/rosatom1.svg";
 import styles from "./index.module.less";
 import Footer from "./components/Footer";
 
@@ -26,7 +25,7 @@ const IconMap: { [key: string]: React.ReactNode } = {
   frown: <FrownOutlined />,
 };
 
-const LayoutPage: FC = ({ children }) => {
+const LayoutPage: FC = ({ }) => {
   // const { data: menuList, error } = useGetCurrentMenus();
   
   const [user, setUser] = useRecoilState(userState);
@@ -36,7 +35,6 @@ const LayoutPage: FC = ({ children }) => {
   // const { driverStart } = useGuide();
   const location = useLocation();
   const navigate = useNavigate();
-  const { formatMessage } = useLocale();
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -88,7 +86,6 @@ const LayoutPage: FC = ({ children }) => {
       }}
       {...settings}
       onCollapse={undefined}
-      formatMessage={formatMessage}
       onMenuHeaderClick={() => history.push("https://reactjs.org/")}
       headerTitleRender={(logo, title, props) => (
         <a

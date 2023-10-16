@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
-import { Spin, Alert } from 'antd';
+import { Atom } from "./components/Spinner/atom";
 
 const SuspendFallbackLoading: FC = () => {
   return (
-    <Spin tip="加载中...">
-
-    </Spin>
+<div style={{margin: 'auto'}}><Atom size="200" color="#54a8f1" animationDuration="700" /></div>
+    // <div><AtomSpinner color="#1890ff" style={{margin: 'auto', width: '100%', padding: '150px'}}/></div>
   );
 };
 

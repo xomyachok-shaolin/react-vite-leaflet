@@ -1,7 +1,6 @@
 import { Button, Result } from 'antd';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLocale } from '@/locales';
 
 import Leaflet from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
@@ -9,7 +8,6 @@ import 'leaflet/dist/leaflet.css';
 
 const NotFoundPage: React.FC<{}> = () => {
   const navigate = useNavigate();
-  const { formatMessage } = useLocale();
   return (
     <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
   <TileLayer

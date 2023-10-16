@@ -7,7 +7,6 @@ import ProForm, {
   ProFormText,
   ProFormTextArea,
 } from "@ant-design/pro-form";
-import { useLocale } from "@/locales";
 
 interface OperationModalProps {
   done: boolean;
@@ -59,7 +58,6 @@ const OperationModal: FC<OperationModalProps> = (props) => {
   const modalFooter = { okText: "保存", onOk: handleSubmit, onCancel };
 
   const getModalContent = () => {
-    const { formatMessage } = useLocale();
     return (
       <Form {...formLayout} form={form} ref={formRef} onFinish={handleFinish}>
         <ProFormText

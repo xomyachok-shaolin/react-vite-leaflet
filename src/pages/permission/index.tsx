@@ -1,297 +1,236 @@
-import { LocaleFormatter, useLocale } from "@/locales";
-import { FooterToolbar, PageContainer } from "@ant-design/pro-layout";
-import type { ProColumns, ActionType } from "@ant-design/pro-table";
-import ProTable from "@ant-design/pro-table";
-import { Button, message, Modal } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
 
-import React, { useEffect, useRef, useState } from "react";
-import { findDOMNode } from "react-dom";
-import OperationModal from "./components/OperationModal";
-import { useCreate, useUpdate } from "@/api/request";
-import { useBatchDeleteProject, useGetProjects } from "@api";
+import { ProCard, ProFormDateRangePicker, ProFormSelect, ProFormSwitch, 
+  ProFormText, ProList, QueryFilter } from "@ant-design/pro-components";
+import { PageContainer } from "@ant-design/pro-layout";
+import { Tabs } from "antd";
+import { UpOutlined, DownOutlined } from "@ant-design/icons";
 
-const TableList= () => {
-  const { formatMessage } = useLocale();
+import "leaflet/dist/leaflet.css";
+import L, {Map} from "leaflet";
+// import "leaflet-side-by-side";
+import { MapContainer, FeatureGroup, TileLayer } from "react-leaflet";
+import { DraftControl } from "./components/Draft";
+import { FullscreenControl } from "react-leaflet-fullscreen";
+import "react-leaflet-fullscreen/styles.css";
 
-  const addBtn = useRef(null);
+const TableList = () => {
 
-  const [done, setDone] = useState<boolean>(false);
-  const [visible, setVisible] = useState<boolean>(false);
-  const [projects, setProjects] = useState<API.Project[]>();
-  const [filters, setFilters] = useState<API.Project[]>();
-  const [current, setCurrent] = useState<Partial<API.Project> | undefined>(
-    undefined
-  );
 
-  const [showDetail, setShowDetail] = useState<boolean>(false);
-
-  const [pagination, setPagination] = useState<{}>({
-    current: 1,
-    pageSize: 10,
-  });
-
-  const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<API.Project[]>([]);
-
-  const { data, error, isLoading, refetch } = useGetProjects(
-    pagination,
-    filters
-  );
-
-  const { mutateAsync } = useCreate<API.Project, API.Project>("/projects");
-  const { mutateAsync: update } = useUpdate<API.Project>("/projects");
-  const { mutateAsync: batchDelete } = useBatchDeleteProject();
-
-  useEffect(() => {
-    setProjects(data?.list);
-    setPagination({
-      ...pagination,
-      total: data?.total,
-      showQuickJumper: true,
-    });
-  }, [data]);
-
-  useEffect(() => {
-    refetch();
-  }, [filters]);
-
-  const showModal = () => {
-    setVisible(true);
-    setCurrent(undefined);
-  };
-
-  const showEditModal = (item: API.Project) => {
-    setVisible(true);
-    setCurrent(item);
-  };
-
-  const setAddBtnblur = () => {
-    if (addBtn.current) {
-      // eslint-disable-next-line react/no-find-dom-node
-      const addBtnDom = findDOMNode(addBtn.current) as HTMLButtonElement;
-      setTimeout(() => addBtnDom.blur(), 0);
-    }
-  };
-
-  const handleDone = () => {
-    setAddBtnblur();
-
-    setVisible(false);
-  };
-
-  const handleCancel = () => {
-    setAddBtnblur();
-    setVisible(false);
-  };
-
-  const addProject = async (data: API.Project) => {
-    await mutateAsync(data);
-  };
-  const updateProject = async (data: API.Project) => {
-    await update(data);
-  };
-  const handleSubmit = async (values: API.Project) => {
-    values.id = current && current.id ? current.id : 0;
-
-    setAddBtnblur();
-    setVisible(false);
-
-    const hide = message.loading("正在添加/更新");
-    try {
-      if (values.id === 0) {
-        await addProject(values);
-      } else {
-        await updateProject(values);
-      }
-
-      hide();
-
-      message.success("操作成功");
-      refetch();
-
-      return true;
-    } catch (error) {
-      hide();
-      message.error("操作失败请重试！");
-      return false;
-    }
-  };
-  /**
-   * 删除节点
-   *
-   * @param selectedRows
-   */
-  const handleRemove = async (selectedRows: API.Project[]) => {
-    const hide = message.loading("正在删除");
-    if (!selectedRows) return true;
-    try {
-      await batchDelete(selectedRows.map((row) => row.id));
-      hide();
-      message.success("删除成功，即将刷新");
-      return true;
-    } catch (error) {
-      hide();
-      message.error("删除失败，请重试");
-      return false;
-    }
-  };
-
-  const columns: ProColumns<API.Project>[] = [
+  const data = [
     {
-      title: formatMessage({ id: "app.project.name" }),
-      dataIndex: "name",
-      tip: "项目名称是唯一的 key",
-      search: {
-        transform: (value) => {
-          return {
-            filter: "name:eq:" + value,
-          };
-        },
-      },
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrent(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
+      title: 'Title_1',
     },
     {
-      title: formatMessage({ id: "app.project.description" }),
-      dataIndex: "description",
-      valueType: "textarea",
-      search: {
-        transform: (value) => {
-          return {
-            filter: "description:eq:" + value,
-          };
-        },
-      },
+      title: 'Title_2',
     },
     {
-      title: formatMessage({ id: "gloabal.tips.operation" }),
-      dataIndex: "option",
-      valueType: "option",
-      render: (_, record) => [
-        <a
-          key="edit"
-          onClick={(e) => {
-            e.preventDefault();
-            showEditModal(record);
-          }}
-        >
-          {formatMessage({ id: "gloabal.tips.modify" })}
-        </a>,
-        <a
-          key="delete"
-          onClick={(e) => {
-            e.preventDefault();
-            Modal.confirm({
-              title: "删除項目",
-              content: "确定删除该項目吗？",
-              okText: "确认",
-              cancelText: "取消",
-              onOk: async () => {
-                await handleRemove([{ ...record }]);
-                setSelectedRows([]);
-                refetch();
-              },
-            });
-          }}
-        >
-          {formatMessage({ id: "gloabal.tips.delete" })}
-        </a>,
-      ],
+      title: 'Title_3',
+    },
+    {
+      title: 'Title_4',
+    },
+    {
+      title: 'Title_5',
     },
   ];
 
+  const position = [51.505, -0.09];
+
+  const [map, setMap] = useState<Map|null>(null);
+
+  const [isSideBySide, setIsSideBySide] = useState(false);  
+
+  const [showFilter, setShowFilter] = useState<boolean>(true);
+
+  const tabsItem = [
+    {
+      key: 'main',
+      label: 'Основное',
+      children: <div style={{overflowY: 'auto', height: '65vh'}}>
+        {showFilter ? (
+          <QueryFilter split labelWidth="auto" span={30} submitter={false}>
+            <ProFormSwitch initialValue={isSideBySide}
+              onChange={setIsSideBySide}
+              label="Сопоставление" />
+            <ProFormText label="Наименование" name="title" />
+            <ProFormDateRangePicker label="Дата съемки" name="date" />
+            <ProFormSelect label="Поставщики" name="suppliers" />
+          </QueryFilter>) : null}
+        <ProList
+          ghost
+          grid={{ column: 1 }}
+          pagination={{
+            size: 'small'
+          }}
+          dataSource={data}
+          metas={{
+            title: {},
+          }}
+        />
+      </div>
+    },
+    { key: 'additive', 
+    label: 'Дополнительное', 
+    disabled: !isSideBySide ,
+    children:  <div style={{overflowY: 'auto'}}>
+      <ProList
+          ghost
+          grid={{ column: 1 }}
+          pagination={{
+            size: 'small'
+          }}
+          dataSource={data}
+          metas={{
+            title: {},
+          }}
+        />
+    </div>}
+    
+  ];
+
+  const [sideBySide, setSidebySide] = useState(null);
+
+  useEffect(() => {
+    if (map){
+
+    var map = L.map("map", {
+      center: [23.14, -101.887],
+      zoom: 5
+    });
+    //   const osmLayer = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    //   attribution:
+    //     '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+
+    // const stamenLayer = L.tileLayer(
+    //   "https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png",
+    //   {
+    //     attribution:
+    //       'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ' +
+    //       '<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; ' +
+    //       "Map data {attribution.OpenStreetMap}",
+    //     minZoom: 1,
+    //     maxZoom: 16
+    //   }
+    // ).onAdd(map);
+      
+    //   const sbs = L.control.sideBySide(osmLayer, blankLayer);
+    //   window.sbs = sbs;
+
+      
+      
+      // L.control.sideBySide(stamenLayer, osmLayer).addTo(map);
+      setMap(map)
+    }
+  }, [map])
+
   return (
-    <PageContainer>
-      <ProTable<API.Project>
-        headerTitle={formatMessage({
-                id: 'app.project.title',
-                defaultMessage: '项目管理',
-              })}
-        actionRef={actionRef}
-        rowKey="id"
-        options={{reload: false}}
-        toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={showModal}>
-            <PlusOutlined /> <LocaleFormatter id="gloabal.tips.create" />
-          </Button>,
-        ]}
-        request={undefined}
-        dataSource={projects}
-        columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
-        search={{
-          defaultCollapsed: false,
-          optionRender: ({ searchText, resetText }, { form }) => [
-            <Button
-              key="search"
-              type="primary"
-              onClick={() => {
-                // form?.submit();
-                console.log("search submit");
-                setFilters(form?.getFieldsValue());
-              }}
-            >
-              {searchText}
-            </Button>,
-            <Button
-              key="reset"
-              onClick={() => {
-                form?.resetFields();
-              }}
-            >
-              {resetText}
-            </Button>,
-          ],
-        }}
-      />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              <LocaleFormatter id="app.project.chosen" defaultMessage="已选择" />{' '}
-              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              <LocaleFormatter id="app.project.item" defaultMessage="项" />
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-                  refetch();
+    <PageContainer style={{ background: "#f0f2f5", flex: 'auto' }}>
 
-            }}
+      {/* <ProCard style={{ flex: 'none', marginBottom: 16 }}>
+        <QueryFilter labelWidth="auto" style={{ paddingBlock: 0 }}>
+          <ProFormText name="title" label="Наименование" />
+          <ProFormDateRangePicker name="date" label="Дата съемки" />
+          <ProFormSelect label="Поставщики" />
+        </QueryFilter>
+      </ProCard> */}
+      <ProCard ghost style={{ position: "relative", marginTop: 16 }}>
+        <ProCard layout="center" style={{ position: 'relative', height: "80vh"}}>
+          <MapContainer
+          whenCreated={setMap}
+            attributionControl={false}
+            center={position}
+            zoom={13}
           >
-            <LocaleFormatter id="app.project.batchDeletion"  />
-          </Button>
-        </FooterToolbar>
-      )}
 
-      <OperationModal
-        done={done}
-        current={current}
-        visible={visible}
-        onDone={handleDone}
-        onCancel={handleCancel}
-        onSubmit={handleSubmit}
-      />
+<TileLayer 
+         url={"http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg"}
+       />
+       <TileLayer 
+         url={"https://placekitten.com/g/1200/1080"}
+       />
+
+            <FeatureGroup>
+              <DraftControl
+                draw={{
+                  circlemarker: true,
+                  marker: true,
+                  polygon: true,
+                  polyline: true,
+                  circle: true,
+                  rectangle: true
+                }}
+                edit={{
+                  edit: {}
+                }}
+                
+                onEdited={e => console.log(e)}
+                onDeleted={e => console.log(e)}
+                onCreated={e => console.log(e)}
+              />
+            </FeatureGroup>
+            <FullscreenControl />
+          </MapContainer>
+        </ProCard>
+        <ProCard colSpan="30%" style={{ height: '80vh' }}>
+          <Tabs
+            defaultActiveKey="main"
+            // onChange={onTypeChange}
+            className="sticky"
+            tabBarExtraContent={
+              <a
+                style={{
+                  display: 'flex',
+                  gap: 4,
+                }}
+                onClick={(e) => {
+                  // e.preventDefault();
+                  setShowFilter(!showFilter);
+                }}
+              >
+                {showFilter ? <>Свернуть<UpOutlined /></> : <>Развернуть<DownOutlined /></>}
+              </a>
+            }
+            items={tabsItem}
+          />
+
+        </ProCard>
+
+
+      </ProCard>
     </PageContainer>
   );
 };
 
 export default TableList;
+
+
+
+{/* <ProFormRadio.Group
+name="radio"
+radioType="button"
+options={[
+  {
+    value: 'weekly',
+    label: '每周',
+  },
+  {
+    value: 'quarterly',
+    label: '每季度',
+  },
+  {
+    value: 'monthly',
+    label: '每月',
+  },
+  {
+    value: 'yearly',
+    label: '每年',
+  },
+]}
+/> */}
+
+
+// useRecoilValueLoadable  позволяет компоненту 
+//  попытаться получить доступ к RecoilValue,
+//  которое, возможно, все еще загружается.
