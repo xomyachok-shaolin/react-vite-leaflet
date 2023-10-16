@@ -343,7 +343,7 @@ const TableList = () => {
       <OperationModal
         done={done}
         current={current}
-        visible={visible}
+        open={visible}
         onDone={handleDone}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
