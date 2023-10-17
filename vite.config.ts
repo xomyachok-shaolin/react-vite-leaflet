@@ -50,13 +50,6 @@ export default ({ command } : { command: string}) => {
     plugins: [
       reactRefresh(),
       svgr(),
-      viteMockServe({
-        mockPath: 'mock',
-        supportTs: true,
-        watchFiles: true,
-        localEnabled: command === 'serve',
-        logger: true,
-      }),
       // styleImport({
       //   libs: [
       //     {

@@ -79,7 +79,6 @@ const LayoutPage: FC = ({ }) => {
 
   return (
     <ProLayout
-      
       collapsed={undefined}
       location={{
         pathname: location.pathname,
@@ -87,7 +86,7 @@ const LayoutPage: FC = ({ }) => {
       {...settings}
       onCollapse={undefined}
       onMenuHeaderClick={() => history.push("https://reactjs.org/")}
-      headerTitleRender={(logo, title, props) => (
+      headerTitleRender={(_logo, title, props) => (
         <a
           className={styles.layoutPageHeader}
         >
