@@ -1,19 +1,17 @@
 import React, { FC, useEffect, Suspense, useCallback, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { MenuList, MenuChild } from "@/models/menu.interface";
-import { useGuide } from "../guide/useGuide";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useGetCurrentMenus } from "@/api";
 import { userState } from "@/stores/user";
 import { useRecoilState } from "recoil";
 
 import type { MenuDataItem } from "@ant-design/pro-layout";
 import ProLayout from "@ant-design/pro-layout";
-import { SmileOutlined, HeartOutlined, FrownOutlined } from "@ant-design/icons";
+import { SmileOutlined, HeartOutlined, 
+  FrownOutlined, GlobalOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import RightContent from "./components/RightContent";
-import { ReactComponent as LogoSvg } from "@/assets/logo/rosatom1.svg";
 import styles from "./index.module.less";
 import Footer from "./components/Footer";
 
@@ -23,11 +21,31 @@ const IconMap: { [key: string]: React.ReactNode } = {
   smile: <SmileOutlined />,
   heart: <HeartOutlined />,
   frown: <FrownOutlined />,
+  earth: <GlobalOutlined />,
 };
 
 const LayoutPage: FC = ({ }) => {
   // const { data: menuList, error } = useGetCurrentMenus();
   
+const menuList = [
+  {
+    path: '/projects',
+    name: 'Проекты',
+    icon: 'smile',
+  },
+  {
+    path: '/viewer',
+    name: 'Обозреватель',
+    icon: 'earth',
+  },
+  {
+    path: '/404',
+    name: '404',
+    locale: 'menu.notfound',
+    icon: 'frown',
+  }
+]
+
   const [user, setUser] = useRecoilState(userState);
   const [pathname, setPathname] = useState("/welcome");
   const { device, collapsed, newUser, settings } = user;
@@ -85,15 +103,8 @@ const LayoutPage: FC = ({ }) => {
       }}
       {...settings}
       onCollapse={undefined}
-      onMenuHeaderClick={() => history.push("https://reactjs.org/")}
-      headerTitleRender={(_logo, title, props) => (
-        <a
-          className={styles.layoutPageHeader}
-        >
-          <LogoSvg  />
-          {title}
-        </a>
-      )}
+      onMenuHeaderClick={false}
+      headerTitleRender={false}
       menuHeaderRender={undefined}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
@@ -121,11 +132,25 @@ const LayoutPage: FC = ({ }) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      //menuDataRender={() => loopMenuItem(menuList)}
+      menuDataRender={() => loopMenuItem(menuList)}
       // menuDataRender={() => m}
       rightContentRender={() => <RightContent />}
       footerRender={() => <Footer />}
-      collapsedButtonRender={false}
+      collapsedButtonRender={() => {
+        return (
+          <div
+            onClick={() => toggle}
+            style={{
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            <span id="sidebar-trigger">
+              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            </span>
+          </div>
+        );
+      }}
     >
       <Outlet />
     </ProLayout>

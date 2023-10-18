@@ -16,7 +16,8 @@ import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet-side-by-side";
-import { MapContainer, FeatureGroup, TileLayer } from "react-leaflet";
+import { MarkerMuster } from "react-leaflet-muster";
+import { MapContainer, FeatureGroup, TileLayer, Marker } from "react-leaflet";
 
 import { DraftControl } from "./components/Draft";
 
@@ -125,7 +126,7 @@ const TableList = () => {
   }, [map, baseViewCoords]);
 
   return (
-    <PageContainer style={{ background: "#f0f2f5", flex: "auto" }}>
+    <PageContainer title={false} breadcrumbRender={false} style={{ background: "#f0f2f5", flex: "auto" }}>
       <ProCard ghost style={{ position: "relative", marginTop: 16 }}>
         <ProCard
           layout="center"
@@ -137,11 +138,17 @@ const TableList = () => {
             center={baseViewCoords}
             zoom={13}
           >
+
+ {/* <MarkerMuster>
+                <Marker position={[-21.210309, -47.647063]}/>
+                <Marker position={[-21.210309, -47.647063]}/>
+            </MarkerMuster> */}
+
             <TileLayer url={osmUrl} />
             <TileLayer url={stamenUrl} />
 
             <FeatureGroup>
-            {/* <DraftControl
+            <DraftControl
                 draw={{
                   circlemarker: true,
                   marker: true,
@@ -157,7 +164,7 @@ const TableList = () => {
                 onEdited={e => console.log(e)}
                 onDeleted={e => console.log(e)}
                 onCreated={e => console.log(e)}
-              /> */}
+              />
             </FeatureGroup>
             {/* <FullscreenControl /> */}
           </MapContainer>

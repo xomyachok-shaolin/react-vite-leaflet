@@ -8,7 +8,6 @@ import { Location } from "history";
 import { useLogin } from "@/api";
 
 import styles from "./index.module.less";
-import { ReactComponent as LogoSvg } from "@/assets/logo/logo.svg";
 import { AttributionControl, Circle, FeatureGroup, MapContainer, Marker, Popup, TileLayer, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css"

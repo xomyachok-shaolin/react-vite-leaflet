@@ -6,8 +6,8 @@ import WrapperRouteComponent from "./config";
 import { useRoutes, RouteObject } from "react-router-dom";
 
 const NotFound = lazy(() => import('@/pages/404'));
-const Project = lazy(() => import('@/pages/project'));
-const Permission = lazy(() => import('@/pages/permission'));
+const Projects = lazy(() => import('@/pages/projects'));
+const Viewer = lazy(() => import('@/pages/viewer'));
 
 const routeList: RouteObject[] = [
 
@@ -20,12 +20,12 @@ const routeList: RouteObject[] = [
         element: <LoginPage />,
       },
       {
-        path: "/project/list",
-        element: <WrapperRouteComponent><Project /></WrapperRouteComponent>,
+        path: "/projects",
+        element: <WrapperRouteComponent><Projects /></WrapperRouteComponent>,
       },
       {
-        path: "/permission/list",
-        element: <WrapperRouteComponent><Permission /></WrapperRouteComponent>,
+        path: "/viewer",
+        element: <WrapperRouteComponent><Viewer /></WrapperRouteComponent>,
       },
       {
         path: "*",

@@ -1,5 +1,5 @@
 import React, { Suspense, useMemo } from "react";
-import { createRoot } from "react-dom/client";
+import * as ReactDOM from 'react-dom';
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
 import axios, { AxiosContext } from "./api/request";
@@ -32,9 +32,7 @@ const AxiosProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   );
 };
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
-root.render(
+ReactDOM.render(
   // <React.StrictMode>
   <AxiosProvider>
     <QueryClientProvider client={queryClient}>
@@ -55,5 +53,5 @@ root.render(
       </RecoilRoot>
     </QueryClientProvider>
   </AxiosProvider>,
-  // </React.StrictMode>,
+  document.getElementById("root")
 );
