@@ -16,10 +16,17 @@ import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet-side-by-side";
-import { MarkerMuster } from "react-leaflet-muster";
-import { MapContainer, FeatureGroup, TileLayer, Marker } from "react-leaflet";
-
-import { DraftControl } from "./components/Draft";
+import MarkerClusterGroup from "react-leaflet-cluster";
+import {
+  MapContainer,
+  FeatureGroup,
+  TileLayer,
+  Marker,
+  Rectangle,
+} from "react-leaflet";
+import { EditControl } from "react-leaflet-draw"
+import drawLocales from 'leaflet-draw-locales'
+drawLocales('ru')
 
 const TableList = () => {
   const data = [
@@ -98,18 +105,21 @@ const TableList = () => {
     },
   ];
 
-  const osmUrl = "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}.png";
-  const stamenUrl = "https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png";
+  const osmUrl =
+    "https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}.png";
+  const stamenUrl =
+    "https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png";
 
   const [osmLayer, setOsmLayer] = useState();
   const [stamenLayer, setStamenLayer] = useState();
 
-  const [sideBySide, setSidebySide] = useState(null);
+  // const [sideBySide, setSidebySide] = useState(null);
 
   const [baseViewCoords, setBaseViewCoords] = useState([37.715, 44.8611]);
   const [map, setMap] = useState();
 
   useEffect(() => {
+    console.log(map);
     if (map) {
       L.Control.sideBySide(stamenLayer, osmLayer).addTo(map);
       setMap(map);
@@ -117,29 +127,50 @@ const TableList = () => {
   }, [osmLayer, stamenLayer]);
 
   useEffect(() => {
+    console.log(map);
+
     if (map) {
       map.setView(baseViewCoords);
 
-      setOsmLayer(L.tileLayer(osmUrl).addTo(map))
+      setOsmLayer(L.tileLayer(osmUrl).addTo(map));
       setStamenLayer(L.tileLayer(stamenUrl).addTo(map));
     }
   }, [map, baseViewCoords]);
 
   return (
-    <PageContainer title={false} breadcrumbRender={false} style={{ background: "#f0f2f5", flex: "auto" }}>
+    <PageContainer
+      title={false}
+      breadcrumbRender={false}
+      style={{ background: "#f0f2f5", flex: "auto" }}
+    >
       <ProCard ghost style={{ position: "relative", marginTop: 16 }}>
         <ProCard
           layout="center"
           style={{ position: "relative", height: "80vh" }}
         >
           <MapContainer
-            whenCreated={(map) => setMap(map)}
+            maxZoom={20}
+            whenReady={(map) => setMap(map.target)}
             attributionControl={false}
             center={baseViewCoords}
             zoom={13}
           >
+            <MarkerClusterGroup chunkedLoading>
+              <Marker position={[37.715, 44.8611]} />
+              <Marker position={[37.8, 44.9]} />
+              <Marker position={[37.2, 44.4]} />
+              <Marker position={[37.6, 45.1]} />
+              <Marker position={[37.9, 45]} />
+              <Marker position={[36.9, 44.1]} />
+              <Rectangle
+                bounds={[
+                  [36.9, 44.1],
+                  [37, 44.5],
+                ]}
+              />
+            </MarkerClusterGroup>
 
- {/* <MarkerMuster>
+            {/* <MarkerMuster>
                 <Marker position={[-21.210309, -47.647063]}/>
                 <Marker position={[-21.210309, -47.647063]}/>
             </MarkerMuster> */}
@@ -148,7 +179,15 @@ const TableList = () => {
             <TileLayer url={stamenUrl} />
 
             <FeatureGroup>
-            <DraftControl
+            <EditControl
+      position='topright'
+      onEdited={(e)=> console.log(e)}
+      onCreated={(e)=> console.log(e)}
+      onDeleted={(e)=> console.log(e)}
+      draw={{
+      }}
+    />
+              {/* <DraftControl
                 draw={{
                   circlemarker: true,
                   marker: true,
@@ -164,7 +203,7 @@ const TableList = () => {
                 onEdited={e => console.log(e)}
                 onDeleted={e => console.log(e)}
                 onCreated={e => console.log(e)}
-              />
+              /> */}
             </FeatureGroup>
             {/* <FullscreenControl /> */}
           </MapContainer>

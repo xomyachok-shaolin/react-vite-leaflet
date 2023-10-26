@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import { createBrowserHistory } from 'history';
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import qs from 'qs';
-import { result } from 'cypress/types/lodash';
 
 const history = createBrowserHistory();
 

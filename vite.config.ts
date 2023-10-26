@@ -1,22 +1,20 @@
-import type { UserConfigExport, ConfigEnv } from 'vite'
-import { loadEnv } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import { viteMockServe } from 'vite-plugin-mock'
 import { resolve } from 'path';
 import svgr from 'vite-plugin-svgr'
-import { getAliases } from "vite-aliases";
-import styleImport from 'vite-plugin-style-import';
-
-const aliases = getAliases();
+import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs'
 
 function pathResolve(dir: string) {
   return resolve(__dirname, '.', dir);
 }
 
 // https://vitejs.dev/config/
-export default ({ command } : { command: string}) => {
-  console.log('command:',)
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
   return {
+    define: {
+      'process.env': env
+    },
     resolve: {
       // alias: aliases,
       alias: [
@@ -37,6 +35,11 @@ export default ({ command } : { command: string}) => {
         '@ant-design/colors',
         '@ant-design/icons',
       ],
+      esbuildOptions:{
+        plugins:[
+          esbuildCommonjs(['react-leaflet-cluster']) 
+        ]
+      }
     },
     // server: {
     //   proxy: {
@@ -50,6 +53,7 @@ export default ({ command } : { command: string}) => {
     plugins: [
       reactRefresh(),
       svgr(),
+      viteCommonjs(),
       // styleImport({
       //   libs: [
       //     {
@@ -77,4 +81,4 @@ export default ({ command } : { command: string}) => {
     },
   }
 }
-
+)

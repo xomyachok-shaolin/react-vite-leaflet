@@ -103,7 +103,6 @@ const menuList = [
       }}
       {...settings}
       onCollapse={undefined}
-      onMenuHeaderClick={false}
       headerTitleRender={false}
       menuHeaderRender={undefined}
       menuItemRender={(menuItemProps, defaultDom) => {
