@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import {
   ProCard,
+  ProForm,
   ProFormDateRangePicker,
   ProFormSelect,
   ProFormSwitch,
@@ -56,6 +57,8 @@ const TableList = () => {
 
   const [showFilter, setShowFilter] = useState<boolean>(true);
 
+  const [form] = ProForm.useForm();
+
   const tabsItem = [
     {
       key: "main",
@@ -68,6 +71,7 @@ const TableList = () => {
                 initialValue={isSideBySide}
                 onChange={setIsSideBySide}
                 label="Сопоставление"
+                name="isSideBySide"
               />
               <ProFormText label="Наименование" name="title" />
               <ProFormDateRangePicker label="Дата съемки" name="date" />
