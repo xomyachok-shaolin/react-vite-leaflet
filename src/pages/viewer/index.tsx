@@ -31,6 +31,8 @@ import { EditControl } from "react-leaflet-draw"
 import drawLocales from 'leaflet-draw-locales'
 drawLocales('ru')
 
+import './custom-leaflet-draw.css';
+
 const TableList = () => {
   const data = [
     {
@@ -140,6 +142,12 @@ const TableList = () => {
     }
   }, [map, baseViewCoords]);
 
+  const editOptions = {
+    edit: {
+      remove: true,
+    },
+  };
+
   return (
     <PageContainer
       title={false}
@@ -185,11 +193,16 @@ const TableList = () => {
             <FeatureGroup>
               <EditControl
                 position='topright'
+                draw={{
+                  rectangle: {
+                    tooltip: '',
+                    repeatMode: true,
+                  },
+                }}
                 onEdited={(e) => console.log(e)}
                 onCreated={(e) => console.log(e)}
                 onDeleted={(e) => console.log(e)}
-                draw={{
-                }}
+                {...editOptions}
               />
             </FeatureGroup>
             <FullscreenControl position="topleft" />
@@ -234,32 +247,3 @@ const TableList = () => {
 };
 
 export default TableList;
-
-{
-  /* <ProFormRadio.Group
-name="radio"
-radioType="button"
-options={[
-  {
-    value: 'weekly',
-    label: '每周',
-  },
-  {
-    value: 'quarterly',
-    label: '每季度',
-  },
-  {
-    value: 'monthly',
-    label: '每月',
-  },
-  {
-    value: 'yearly',
-    label: '每年',
-  },
-]}
-/> */
-}
-
-// useRecoilValueLoadable  позволяет компоненту
-//  попытаться получить доступ к RecoilValue,
-//  которое, возможно, все еще загружается.

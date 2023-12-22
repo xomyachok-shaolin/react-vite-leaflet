@@ -43,7 +43,6 @@ const LayoutPage: FC = ({ }) => {
     {
       path: '/404',
       name: '404',
-      locale: 'menu.notfound',
       icon: 'frown',
     }
   ]

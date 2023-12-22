@@ -3,7 +3,7 @@ import { FooterToolbar, PageContainer } from "@ant-design/pro-layout";
 import type { ProColumns, ActionType } from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
 import { Button, Card, Dropdown, List, Menu, message, Modal, PaginationProps, Progress, Space, Tag } from "antd";
-import { PlusOutlined, EllipsisOutlined, SmileOutlined, EyeInvisibleOutlined, SecurityScanOutlined } from "@ant-design/icons";
+import { PlusOutlined, EllipsisOutlined, SmileOutlined, EyeInvisibleOutlined, SecurityScanOutlined, RobotFilled, RobotOutlined, UserOutlined, MehFilled } from "@ant-design/icons";
 
 import React, { useEffect, useRef, useState } from "react";
 import { findDOMNode } from "react-dom";
@@ -40,19 +40,6 @@ const TableList = () => {
   const { mutateAsync } = useAddProject();
   const { mutateAsync: update } = useUpdateProject();
   const { mutateAsync: batchDelete } = useBatchDeleteProject();
-
-  // useEffect(() => {
-  //   setProjects(data?.list);
-  //   setPagination({
-  //     ...pagination,
-  //     total: data?.total,
-  //     showQuickJumper: true,
-  //   });
-  // }, [data]);
-
-  // useEffect(() => {
-  //   refetch();
-  // }, [pagination.current, pagination.pageSize, filters]);
 
   const showModal = () => {
     setVisible(true);
@@ -199,13 +186,18 @@ const TableList = () => {
               headStyle={{ backgroundColor: '#8A2BE2', color: "#ffffff" }}
               // 30=4D, 35=59, 40=66, 50=80, 55=8C, 60=99, 65=A6, 70=B3, 75=BF, 80=CC, 85=D9
               bodyStyle={{
-                backgroundColor: '#8A2BE2' + '4D', 
+                backgroundColor: '#8A2BE2' + '4D',
                 color: "#646676",
                 wordWrap: "break-word"
               }}
               title={item.title}
               extra={
-                <div>
+                <Space>
+                  <Space>
+                    <RobotFilled style={{ color: "#ffffff" }} />
+                    <RobotOutlined style={{ color: "#ffffff" }} />
+                    <UserOutlined style={{ color: "#ffffff" }} />
+                  </Space>
                   <Dropdown
                     overlay={
                       <Menu>
@@ -226,11 +218,8 @@ const TableList = () => {
                       <EllipsisOutlined style={{ float: "right", color: "#ffffff" }} />
                     </a>
                   </Dropdown>
-                  <Space>
-                    <SecurityScanOutlined style={{ color: "#ffffff" }} />
-                    <EyeInvisibleOutlined style={{ color: "#ffffff" }} />
-                  </Space>
-                </div>
+                  
+                </Space>
               }>
 
               <div>{item.description}</div>

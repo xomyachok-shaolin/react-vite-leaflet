@@ -1,0 +1,7 @@
+.leaflet-draw-tooltip .leaflet-draw-tooltip-subtext {
+    display: none !important;
+}
+
+.leaflet-draw-tooltip br {
+    display: none !important;
+}
