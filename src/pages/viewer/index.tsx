@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   ProCard,
@@ -146,6 +146,27 @@ const TableList = () => {
     }
   }, [map, baseViewCoords]);
 
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (map) {
+      // Add a keydown event listener to the document
+      const handleKeyPress = (e) => {
+        if (e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А' && e.target.tagName !== 'INPUT') {
+          // Toggle fullscreen control when the 'f' key is pressed
+          mapRef.current.toggleFullscreen();
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyPress);
+
+      // Remove the event listener when the component unmounts
+      return () => {
+        document.removeEventListener('keydown', handleKeyPress);
+      };
+    }
+  }, [map]);
+
   const editOptions = {
     edit: {
       remove: true,
@@ -165,6 +186,7 @@ const TableList = () => {
         >
           <MapContainer
             maxZoom={20}
+            ref={mapRef}
             whenReady={(map) => setMap(map.target)}
             attributionControl={false}
             center={baseViewCoords}
@@ -192,7 +214,7 @@ const TableList = () => {
 
             <TileLayer url={osmUrl} />
             <TileLayer url={stamenUrl} />
-            
+
 
             <FeatureGroup>
               <EditControl
