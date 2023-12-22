@@ -169,7 +169,7 @@ const TableList = () => {
 
   // title, description, updatedAt, evaluated, predicted, action
   const listData = [
-    { id: 1, title: 'item 1',updatedAt:'1-1-2023', description: 'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg' },
+    { id: 1, title: 'item 1', updatedAt: '1-1-2023', description: 'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg' },
     { id: 2, title: 'item 2' },
     { id: 3, title: 'item 3' },
   ];
@@ -198,34 +198,43 @@ const TableList = () => {
 
               headStyle={{ backgroundColor: '#8A2BE2', color: "#ffffff" }}
               // 30=4D, 35=59, 40=66, 50=80, 55=8C, 60=99, 65=A6, 70=B3, 75=BF, 80=CC, 85=D9
-              bodyStyle={{ backgroundColor: '#8A2BE2' + '4D', color: "#646676", 
-                
-                wordWrap: "break-word" }}
+              bodyStyle={{
+                backgroundColor: '#8A2BE2' + '4D', 
+                color: "#646676",
+                wordWrap: "break-word"
+              }}
               title={item.title}
-              extra={<Space direction="vertical" >
-                <Dropdown overlay={<Menu>
-                  <Menu.Item key="1">
-                    <a target="_blank" rel="noopener noreferrer" href="">
-                      редактировать
+              extra={
+                <div>
+                  <Dropdown
+                    overlay={
+                      <Menu>
+                        <Menu.Item key="1" items={[
+                          <a target="_blank" rel="noopener noreferrer" href="">
+                            редактировать
+                          </a>
+                        ]}>
+                          редактировать
+                        </Menu.Item>
+                        <Menu.Item key="2" danger items={['удалить']}>
+                          удалить
+                        </Menu.Item>
+                      </Menu>
+                    }
+                  >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <EllipsisOutlined style={{ float: "right", color: "#ffffff" }} />
                     </a>
-                  </Menu.Item>
-                  <Menu.Item key="2" danger>удалить</Menu.Item>
-                </Menu>}>
-                  <a onClick={(e) => e.preventDefault()}>
-
-                    <EllipsisOutlined style={{ float: "right", color: "#ffffff" }} />
-                  </a>
-                </Dropdown>
-                <Space>
-                <SecurityScanOutlined style={{ color: "#ffffff" }}/> 
-                {/* <SecurityScanOutlined /> */}
-                <EyeInvisibleOutlined style={{ color: "#ffffff" }} />
-                </Space>
-                </Space>
+                  </Dropdown>
+                  <Space>
+                    <SecurityScanOutlined style={{ color: "#ffffff" }} />
+                    <EyeInvisibleOutlined style={{ color: "#ffffff" }} />
+                  </Space>
+                </div>
               }>
-                
+
               <div>{item.description}</div>
-              <div style={{paddingTop: '24px'}}>{item.updatedAt}</div>
+              <div style={{ paddingTop: '24px' }}>{item.updatedAt}</div>
             </Card>
           </List.Item>
         )}
@@ -267,78 +276,6 @@ const TableList = () => {
         // headerTitle="卡片列表展示"
         dataSource={listData}
       />
-      {/* <ProTable<API.Project>
-        headerTitle={formatMessage({
-          id: 'app.project.title',
-          defaultMessage: '项目管理',
-        })}
-        actionRef={actionRef}
-        rowKey="id"
-        options={{ reload: false }}
-        toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={showModal}>
-            <PlusOutlined /> <LocaleFormatter id="gloabal.tips.create" />
-          </Button>,
-        ]}
-        request={undefined}
-        dataSource={projects}
-        columns={columns}
-        pagination={pagination}
-        onChange={(pagination, filters, sorter) => {
-          setPagination(pagination);
-        }}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
-        search={{
-          defaultCollapsed: false,
-          optionRender: ({ searchText, resetText }, { form }) => [
-            <Button
-              key="search"
-              type="primary"
-              onClick={() => {
-                // form?.submit();
-                console.log("search submit");
-                setFilters(form?.getFieldsValue());
-              }}
-            >
-              {searchText}
-            </Button>,
-            <Button
-              key="reset"
-              onClick={() => {
-                form?.resetFields();
-              }}
-            >
-              {resetText}
-            </Button>,
-          ],
-        }}
-      />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              <LocaleFormatter id="app.project.chosen" defaultMessage="已选择" />{' '}
-              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              <LocaleFormatter id="app.project.item" defaultMessage="项" />
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              refetch();
-
-            }}
-          >
-            <LocaleFormatter id="app.project.batchDeletion" />
-          </Button>
-        </FooterToolbar>
-      )} */}
 
       <OperationModal
         done={done}

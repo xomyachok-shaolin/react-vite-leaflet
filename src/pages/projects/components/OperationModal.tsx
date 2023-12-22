@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from "react";
-import moment from "moment";
+// import moment from "moment";
 import { Modal, Form, Input } from "antd";
 import ProForm, {
   ModalForm,
@@ -106,7 +106,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
       open={visible}
       {...modalFooter}
     >
-      {getModalContent()}
+      <div>{getModalContent()}</div>
     </Modal>
   );
 };

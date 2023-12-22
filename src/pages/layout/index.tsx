@@ -7,12 +7,14 @@ import { useRecoilState } from "recoil";
 
 import type { MenuDataItem } from "@ant-design/pro-layout";
 import ProLayout from "@ant-design/pro-layout";
-import { SmileOutlined, HeartOutlined, 
-  FrownOutlined, GlobalOutlined } from "@ant-design/icons";
+import {
+  SmileOutlined, HeartOutlined,
+  FrownOutlined, GlobalOutlined
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import RightContent from "./components/RightContent";
-import styles from "./index.module.less";
+import LogoIcon from "@/assets/logo/rosatom1.svg?react";
 import Footer from "./components/Footer";
 
 const history = createBrowserHistory();
@@ -26,25 +28,25 @@ const IconMap: { [key: string]: React.ReactNode } = {
 
 const LayoutPage: FC = ({ }) => {
   // const { data: menuList, error } = useGetCurrentMenus();
-  
-const menuList = [
-  {
-    path: '/projects',
-    name: 'Проекты',
-    icon: 'smile',
-  },
-  {
-    path: '/viewer',
-    name: 'Обозреватель',
-    icon: 'earth',
-  },
-  {
-    path: '/404',
-    name: '404',
-    locale: 'menu.notfound',
-    icon: 'frown',
-  }
-]
+
+  const menuList = [
+    {
+      path: '/projects',
+      name: 'Проекты',
+      icon: 'smile',
+    },
+    {
+      path: '/viewer',
+      name: 'Обозреватель',
+      icon: 'earth',
+    },
+    {
+      path: '/404',
+      name: '404',
+      locale: 'menu.notfound',
+      icon: 'frown',
+    }
+  ]
 
   const [user, setUser] = useRecoilState(userState);
   const [pathname, setPathname] = useState("/welcome");
@@ -78,21 +80,28 @@ const menuList = [
     return MenuListAll;
   };
 
-  // useEffect(() => {
-  //   newUser && driverStart();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [newUser]);
+  const menuDataRender = () => {
+    const flattenedMenu = [];
 
-  const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
-    if (!menus) return [];
+    for (const menuItem of menuList) {
+      // Add the top-level menu item
+      flattenedMenu.push({
+        ...menuItem,
+        icon: menuItem.icon && IconMap[menuItem.icon],
+      });
 
-    const m = menus.map(({ icon, children, ...item }) => ({
-      ...item,
-      icon: icon && IconMap[icon as string],
-      children: children && loopMenuItem(children),
-    }));
+      if (menuItem.children && menuItem.children.length > 0) {
+        // Handle submenus
+        for (const subMenuItem of menuItem.children) {
+          flattenedMenu.push({
+            ...subMenuItem,
+            icon: subMenuItem.icon && IconMap[subMenuItem.icon],
+          });
+        }
+      }
+    }
 
-    return m;
+    return flattenedMenu;
   };
 
   return (
@@ -103,7 +112,7 @@ const menuList = [
       }}
       {...settings}
       onCollapse={undefined}
-      headerTitleRender={false}
+      headerTitleRender={() => <LogoIcon />}
       menuHeaderRender={undefined}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (
@@ -123,33 +132,11 @@ const menuList = [
         },
         ...routers,
       ]}
-      itemRender={(route, params, routes, paths) => {
-        const first = routes.indexOf(route) === 0;
-        return first ? (
-          <Link to={paths.join("/")}>{route.breadcrumbName}</Link>
-        ) : (
-          <span>{route.breadcrumbName}</span>
-        );
-      }}
-      menuDataRender={() => loopMenuItem(menuList)}
-      // menuDataRender={() => m}
+      menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       footerRender={() => <Footer />}
-      collapsedButtonRender={() => {
-        return (
-          <div
-            onClick={() => toggle}
-            style={{
-              cursor: "pointer",
-              fontSize: "16px",
-            }}
-          >
-            <span id="sidebar-trigger">
-              {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            </span>
-          </div>
-        );
-      }}
+      logo={<LogoIcon width={90} height={45} />}
+
     >
       <Outlet />
     </ProLayout>

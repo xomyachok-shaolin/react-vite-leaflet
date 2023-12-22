@@ -20,11 +20,11 @@ const routeList: RouteObject[] = [
         element: <LoginPage />,
       },
       {
-        path: "/projects",
+        path: "projects",
         element: <WrapperRouteComponent><Projects /></WrapperRouteComponent>,
       },
       {
-        path: "/viewer",
+        path: "viewer",
         element: <WrapperRouteComponent><Viewer /></WrapperRouteComponent>,
       },
       {

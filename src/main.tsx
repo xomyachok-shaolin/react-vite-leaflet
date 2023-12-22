@@ -6,7 +6,7 @@ import axios, { AxiosContext } from "./api/request";
 
 import "./index.css";
 import App from "./App";
-import { ErrorBoundary } from "react-error-boundary";
+// import { ErrorBoundary } from "react-error-boundary";
 import SuspendFallbackLoading from "./pages/layout/suspendFallbackLoading";
 
 const queryClient = new QueryClient({

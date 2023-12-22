@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 import { resolve } from 'path';
@@ -11,7 +11,7 @@ function pathResolve(dir: string) {
 export default defineConfig(({ mode }) => {
   return {
     plugins: [
-      reactRefresh(),
+      react(),
       svgr(),
       viteCommonjs(),
     ],
