@@ -6,16 +6,16 @@ interface MenuItem {
     zh_CN: string;
     en_US: string;
   };
-  /** 图标名称
+  /** Название значка
    *
-   * 子子菜单不需要图标
+   * Подподменю не требуют значков
    */
   icon?: string;
-  /** 菜单id */
+  /** меню id */
   key: string;
-  /** 菜单路由 */
+  /** маршрутизация меню */
   path: string;
-  /** 子菜单 */
+  /** подменю */
   children?: MenuItem[];
 }
 

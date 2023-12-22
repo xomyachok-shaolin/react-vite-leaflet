@@ -13,31 +13,31 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 项目ID
+     * Идентификатор проекта
      * @type {number}
      * @memberof Action
      */
     projectId?: number;
     /**
-     * 名字
+     * Имя
      * @type {string}
      * @memberof Action
      */
     name?: string;
     /**
-     * 操作描述
+     * Описание операции
      * @type {string}
      * @memberof Action
      */
     description?: string;
     /**
-     * 创建人ID
+     * Идентификатор создателя
      * @type {number}
      * @memberof Action
      */
     createBy?: number;
     /**
-     * 修改人ID
+     * Идентификатор модификатора
      * @type {number}
      * @memberof Action
      */
@@ -130,25 +130,25 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 名字
+     * Имя
      * @type {string}
      * @memberof Group
      */
     name?: string;
     /**
-     * 描述
+     * Описание
      * @type {string}
      * @memberof Group
      */
     description?: string;
     /**
-     * 创建人ID
+     * Идентификатор создателя
      * @type {number}
      * @memberof Group
      */
     createBy?: number;
     /**
-     * 修改人ID
+     * Идентификатор модификатора
      * @type {number}
      * @memberof Group
      */
@@ -222,19 +222,19 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 项目ID
+     * Идентификатор проекта
      * @type {number}
      * @memberof Menu
      */
     projectId?: number;
     /**
-     * 名字
+     * Имя
      * @type {string}
      * @memberof Menu
      */
     name?: string;
     /**
-     * 备注
+     * Примечание
      * @type {string}
      * @memberof Menu
      */
@@ -246,37 +246,37 @@ declare namespace API {
      */
     i18N?: string;
     /**
-     * 排序值
+     * первичный ключ i18n
      * @type {number}
      * @memberof Menu
      */
     sortOrder?: number;
     /**
-     * 图标
+     * иконка
      * @type {string}
      * @memberof Menu
      */
     icon?: string;
     /**
-     * 路由，link、externalLink 二选其一
+     * Маршрутизация: выберите ссылку или внешнюю ссылку.
      * @type {string}
      * @memberof Menu
      */
     link?: string;
     /**
-     * 访问路由
+     * маршрут доступа
      * @type {string}
      * @memberof Menu
      */
     externalLink?: string;
     /**
-     * 链接 target
+     * цель ссылки
      * @type {string}
      * @memberof Menu
      */
     target?: string;
     /**
-     * 是否禁用菜单, 1:不禁用 2:禁用 
+     * Отключить ли меню, 1: Не отключено 2: Отключено 
      * @type {number}
      * @memberof Menu
      */
@@ -288,25 +288,25 @@ declare namespace API {
      */
     hide?: number;
     /**
-     * 隐藏面包屑, 1:不隐藏 2:隐藏
+     * Скрыть меню, 1: не скрыто 2: скрыто
      * @type {number}
      * @memberof Menu
      */
     hideInBreadcrumb?: number;
     /**
-     * 父级 ID 
+     * Идентификатор родителя 
      * @type {number}
      * @memberof Menu
      */
     parentId?: number;
     /**
-     * 创建人ID
+     * Идентификатор создателя
      * @type {number}
      * @memberof Menu
      */
     createBy?: number;
     /**
-     * 修改人ID
+     * Идентификатор модификатора
      * @type {number}
      * @memberof Menu
      */
@@ -380,19 +380,19 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 组织机构代码
+     * Код организации
      * @type {string}
      * @memberof Org
      */
     code?: string;
     /**
-     * 名字
+     * имя
      * @type {string}
      * @memberof Org
      */
     name?: string;
     /**
-     * 备注
+     * Примечание
      * @type {string}
      * @memberof Org
      */
@@ -404,13 +404,13 @@ declare namespace API {
      */
     logo?: string;
     /**
-     * 创建人ID
+     * Идентификатор создателя
      * @type {number}
      * @memberof Org
      */
     createBy?: number;
     /**
-     * 修改人ID
+     * Идентификатор модификатора
      * @type {number}
      * @memberof Org
      */
@@ -447,55 +447,49 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 名字
+     * имя
      * @type {string}
      * @memberof OrgNode
      */
     name?: string;
     /**
-     * 备注
      * @type {string}
      * @memberof OrgNode
      */
     description?: string;
     /**
-     * 父级 ID 
      * @type {number}
      * @memberof OrgNode
      */
     parentId?: number;
     /**
-     * 组织机构 ID 
+     * Идентификатор организации 
      * @type {number}
      * @memberof OrgNode
      */
     orgId?: number;
     /**
-     * 根节点 1 是, 2 否
+     * Корневой узел 1 да, 2 нет
      * @type {number}
      * @memberof OrgNode
      */
     root?: number;
     /**
-     * 层级数
      * @type {number}
      * @memberof OrgNode
      */
     depth?: number;
     /**
-     * 排序值
      * @type {number}
      * @memberof OrgNode
      */
     order?: number;
     /**
-     * 创建人ID
      * @type {number}
      * @memberof OrgNode
      */
     createBy?: number;
     /**
-     * 修改人ID
      * @type {number}
      * @memberof OrgNode
      */
@@ -612,25 +606,21 @@ declare namespace API {
      */
     id: number;
     /**
-     * 名字
      * @type {string}
      * @memberof Project
      */
     name: string;
     /**
-     * 描述
      * @type {string}
      * @memberof Project
      */
     description?: string;
     /**
-     * 创建人ID
      * @type {number}
      * @memberof Project
      */
     createBy?: number;
     /**
-     * 修改人ID
      * @type {number}
      * @memberof Project
      */
@@ -704,49 +694,43 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 项目ID
      * @type {number}
      * @memberof Resource
      */
     projectId?: number;
     /**
-     * 名字
      * @type {string}
      * @memberof Resource
      */
     name?: string;
     /**
-     * 资源描述
      * @type {string}
      * @memberof Resource
      */
     description?: string;
     /**
-     * 资源类型, 1: API 2: 菜单 3: 数据
      * @type {string}
      * @memberof Resource
      */
     type?: string;
     /**
-     * 资源路由，type为1时有效
+     * Маршрутизация ресурсов, действительна, если тип равен 1.
      * @type {string}
      * @memberof Resource
      */
     route?: string;
     /**
-     * 菜单ID，type为2时有效
+     * Идентификатор меню, действителен, если тип равен 2.
      * @type {number}
      * @memberof Resource
      */
     menuId?: number;
     /**
-     * 创建人ID
      * @type {number}
      * @memberof Resource
      */
     createBy?: number;
     /**
-     * 修改人ID
      * @type {number}
      * @memberof Resource
      */
@@ -820,97 +804,90 @@ declare namespace API {
      */
     id?: number;
     /**
-     * 名称
      * @type {string}
      * @memberof User
      */
     username?: string;
     /**
-     * 昵称
      * @type {string}
      * @memberof User
      */
     nickname?: string;
     /**
-     * 密码
      * @type {string}
      * @memberof User
      */
     password?: string;
     /**
-     * 手机号
      * @type {string}
      * @memberof User
      */
     mobile?: string;
     /**
-     * 手机号验证是否通过 1 通过, 2 未通过
      * @type {number}
      * @memberof User
      */
     mobileVerified?: number;
     /**
-     * 邮箱
      * @type {string}
      * @memberof User
      */
     email?: string;
     /**
-     * 邮箱验证是否通过 1 通过, 2 未通过
+     * Проверка электронной почты пройдена: 1 пройдена, 2 — неудачно.
      * @type {number}
      * @memberof User
      */
     emailVerified?: number;
     /**
-     * 1 可用, 2 禁用, 3 注销
+     * 1 включен, 2 отключен, 3 вышли из системы
      * @type {number}
      * @memberof User
      */
     status?: number;
     /**
-     * 性别 1 男, 2 女, 3 未知
+     * Пол 1 мужской, 2 женщины, 3 неизвестный
      * @type {number}
      * @memberof User
      */
     gender?: number;
     /**
-     * 地址
      * @type {string}
      * @memberof User
      */
     address?: string;
     /**
-     * 最近一次登录IP地址
+     * IP-адрес последнего входа в систему
      * @type {string}
      * @memberof User
      */
     lastLoginIp?: string;
     /**
-     * 最近一次登录时间
+     * Время последнего входа в систему
      * @type {string}
      * @memberof User
      */
     lastLoginTime?: string;
     /**
-     * 登录次数
+     * Количество входов
      * @type {number}
      * @memberof User
      */
     loginCount?: number;
     /**
-     * 头像图片
+     * Картинка аватара
      * @type {string}
      * @memberof User
      */
     avatar?: string;
     /**
-     * 创建人ID
+     * Идентификатор создателя
      * @type {number}
      * @memberof User
      */
     createBy?: number;
     /**
-     * 修改人ID
+     * Идентификатор модификатора
      * @type {number}
      * @memberof User
      */

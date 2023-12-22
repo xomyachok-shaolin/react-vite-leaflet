@@ -14,6 +14,8 @@ import { Tabs } from "antd";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
 
 import "leaflet/dist/leaflet.css";
+import "leaflet.fullscreen/Control.FullScreen.css";
+import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import L from "leaflet";
 import "leaflet-side-by-side";
 import MarkerClusterGroup from "react-leaflet-cluster";
@@ -24,6 +26,7 @@ import {
   Marker,
   Rectangle,
 } from "react-leaflet";
+import { FullscreenControl } from 'react-leaflet-fullscreen';
 import { EditControl } from "react-leaflet-draw"
 import drawLocales from 'leaflet-draw-locales'
 drawLocales('ru')
@@ -177,35 +180,20 @@ const TableList = () => {
 
             <TileLayer url={osmUrl} />
             <TileLayer url={stamenUrl} />
+            
 
             <FeatureGroup>
-            <EditControl
-      position='topright'
-      onEdited={(e)=> console.log(e)}
-      onCreated={(e)=> console.log(e)}
-      onDeleted={(e)=> console.log(e)}
-      draw={{
-      }}
-    />
-              {/* <DraftControl
+              <EditControl
+                position='topright'
+                onEdited={(e) => console.log(e)}
+                onCreated={(e) => console.log(e)}
+                onDeleted={(e) => console.log(e)}
                 draw={{
-                  circlemarker: true,
-                  marker: true,
-                  polygon: true,
-                  polyline: true,
-                  circle: true,
-                  rectangle: true
                 }}
-                edit={{
-                  edit: {}
-                }}
-                
-                onEdited={e => console.log(e)}
-                onDeleted={e => console.log(e)}
-                onCreated={e => console.log(e)}
-              /> */}
+              />
             </FeatureGroup>
-            {/* <FullscreenControl /> */}
+            <FullscreenControl position="topleft" />
+
           </MapContainer>
         </ProCard>
         <ProCard colSpan="30%" style={{ height: "80vh" }}>

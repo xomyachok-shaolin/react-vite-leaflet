@@ -37,7 +37,7 @@ axios.interceptors.response.use(
         }
 
         notification.error({
-            message: `请求错误 ${response.statusText}: ${response}`,
+            message: `Ошибка запроса ${response.statusText}: ${response}`,
             description: data || response.statusText || 'Error',
         });
 
@@ -49,39 +49,39 @@ axios.interceptors.response.use(
     },
     (error) => {
         console.log('err:', error, error.response); // for debug
-        let msg = "请求错误";
+        let msg = "Ошибка запроса";
         if (error.response && error.response.status) {
             switch (error.response.status) {
-                // 401: 未登录                
-                // 未登录则跳转登录页面，并携带当前页面的路径                
-                // 在登录成功后返回当前页面，这一步需要在登录页操作。 
+                // 401: вход не выполнен
+                // Если вы не вошли в систему, перейдите на страницу входа и укажите путь к текущей странице.
+                // Возврат на текущую страницу после успешного входа.Этот шаг необходимо выполнить на странице входа. 
                 case 401:
                     window.location.href = '/login';
 
                     break;
-                // 403 token过期                    
-                // 登录过期对用户进行提示                    
-                // 清除本地token和清空vuex中token对象                    
-                // 跳转登录页面   
+                // срок действия токена 403 истек
+                // Запросить пользователя, когда истечет срок входа в систему
+                // Очищаем локальный токен и очищаем объект токена в vuex
+                // Переход на страницу входа 
                 case 403:
                     window.location.href = '/login';
                     break;
-                // 404请求不存在                
+                // 404 запрос не существует                
                 case 404:
                     notification.error({
-                        message: `请求不存在`,
+                        message: `Запрос не существует`,
                         description: error.response.data?.msg || 'Error',
                     });
                     break;
                 case 406:
                     notification.error({
-                        message: `请求参数有误`,
+                        message: `Параметры запроса неверны`,
                         description: error.response.data?.msg || 'Error',
                     });
                     break;
                 default:
                     notification.error({
-                        message: `请求错误`,
+                        message: `Ошибка запроса`,
                         description: error.response.data?.msg || 'Error',
                     });
 
