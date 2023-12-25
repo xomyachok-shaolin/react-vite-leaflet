@@ -18,3 +18,7 @@
     flex-direction: column; /* Выстраиваем элементы в колонку */
     align-items: flex-start; /* Выравниваем элементы по началу контейнера */
 }
+
+.leaflet-draw.leaflet-control {
+    margin: 0px 10px;
+}
