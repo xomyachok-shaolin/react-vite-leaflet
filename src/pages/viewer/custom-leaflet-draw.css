@@ -5,3 +5,16 @@
 .leaflet-draw-tooltip br {
     display: none !important;
 }
+
+.leaflet-draw-toolbar.leaflet-bar {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: start;
+}
+
+/* Стили для объединенной панели инструментов */
+.leaflet-draw-toolbar.leaflet-bar {
+    display: flex; /* Используем flexbox для выравнивания элементов */
+    flex-direction: column; /* Выстраиваем элементы в колонку */
+    align-items: flex-start; /* Выравниваем элементы по началу контейнера */
+}

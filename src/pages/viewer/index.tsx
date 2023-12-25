@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   ProCard,
@@ -32,6 +32,7 @@ import { EditControl } from "react-leaflet-draw"
 import drawLocales from 'leaflet-draw-locales'
 drawLocales('ru')
 
+import useLeafletMapTools from './useLeafletMapTools';
 import './custom-leaflet-draw.css';
 
 const TableList = () => {
@@ -173,6 +174,21 @@ const TableList = () => {
     },
   };
 
+  const featureGroupRef = useRef();
+
+  const onCreated = (e) => {
+    // Обработка созданного слоя
+    const layer = e.layer;
+    featureGroupRef.current.addLayer(layer); // Добавить слой в FeatureGroup
+  };
+
+
+
+  // Используйте кастомный хук
+  useLeafletMapTools(map);
+  
+
+
   return (
     <PageContainer
       title={false}
@@ -187,7 +203,7 @@ const TableList = () => {
           <MapContainer
             maxZoom={20}
             ref={mapRef}
-            whenReady={(map) => setMap(map.target)}
+            whenReady={(mapEvent) => setMap(mapEvent.target)}
             attributionControl={false}
             center={baseViewCoords}
             zoom={13}
@@ -216,7 +232,7 @@ const TableList = () => {
             <TileLayer url={stamenUrl} />
 
 
-            <FeatureGroup>
+            <FeatureGroup ref={featureGroupRef}>
               <EditControl
                 position='topright'
                 draw={{
@@ -226,9 +242,11 @@ const TableList = () => {
                   },
                 }}
                 onEdited={(e) => console.log(e)}
-                onCreated={(e) => console.log(e)}
+                onCreated={onCreated}
                 onDeleted={(e) => console.log(e)}
-                {...editOptions}
+                edit={{
+                  featureGroup: featureGroupRef.current,
+                }}
               />
             </FeatureGroup>
             <FullscreenControl position="topleft" />
