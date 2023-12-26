@@ -2,7 +2,7 @@
 import { FooterToolbar, PageContainer } from "@ant-design/pro-layout";
 import type { ProColumns, ActionType } from "@ant-design/pro-table";
 import ProTable from "@ant-design/pro-table";
-import { Button, Card, Dropdown, List, Menu, message, Modal, PaginationProps, Progress, Space, Tag } from "antd";
+import { Button, Card, Dropdown, List, Menu, message, Modal, PaginationProps, Progress, Space, Tag, Typography } from "antd";
 import { PlusOutlined, EllipsisOutlined, SmileOutlined, EyeInvisibleOutlined, SecurityScanOutlined, RobotFilled, RobotOutlined, UserOutlined, MehFilled } from "@ant-design/icons";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -10,7 +10,7 @@ import { findDOMNode } from "react-dom";
 import OperationModal from "./components/OperationModal";
 import { useAddProject, useBatchDeleteProject, useGetProjects, useUpdateProject } from "@/api";
 import { ProCard, ProList } from "@ant-design/pro-components";
-
+const { Text, Title } = Typography;
 
 
 const TableList = () => {
@@ -190,7 +190,12 @@ const TableList = () => {
                 color: "#646676",
                 wordWrap: "break-word"
               }}
-              title={item.title}
+              title={
+              <div>
+              <Title style={{color:"#fff"}} level={5}>{item.title}</Title>
+              <Text type="secondary" style={{color:"#fff", fontSize: "70%"}}>26.12.2023</Text>
+              </div>
+              }
               extra={
                 <Space>
                   <Space>

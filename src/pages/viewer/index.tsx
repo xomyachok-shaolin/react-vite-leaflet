@@ -31,6 +31,10 @@ import { FullscreenControl } from 'react-leaflet-fullscreen';
 import { EditControl } from "react-leaflet-draw"
 import drawLocales from 'leaflet-draw-locales'
 drawLocales('ru')
+// Настройка дополнительных текстов подсказок
+L.drawLocal.edit.toolbar.buttons.remove = 'Удалить (Del)';
+L.drawLocal.draw.toolbar.buttons.polyline = 'Нарисовать полилинию (L)';
+L.drawLocal.draw.toolbar.buttons.rectangle = 'Нарисовать прямоугольник (R)';
 
 import useLeafletMapTools from './useLeafletMapTools';
 import './custom-leaflet-draw.css';
@@ -149,13 +153,34 @@ const TableList = () => {
 
   const mapRef = useRef(null);
 
+
+  // Функция для имитации клика по кнопке инструмента рисования
+  const simulateDrawClick = (selector) => {
+    const button = document.querySelector(selector);
+    if (button) {
+      button.click();
+    }
+  };
+
   useEffect(() => {
     if (map) {
       // Add a keydown event listener to the document
       const handleKeyPress = (e) => {
-        if (e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А' && e.target.tagName !== 'INPUT') {
-          // Toggle fullscreen control when the 'f' key is pressed
+        console.log(e.key)
+        // Переключение полноэкранного режима
+        if ((e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А') && e.target.tagName !== 'INPUT') {
           mapRef.current.toggleFullscreen();
+        }
+        // Активация инструментов рисования
+        if ((e.key === 'r' || e.key === 'R' || e.key === 'к' || e.key === 'К') && e.target.tagName !== 'INPUT') {
+          // Активация рисования прямоугольника
+          document.querySelector('.leaflet-draw-draw-rectangle')?.click();
+        } if ((e.key === 'l'  || e.key === 'L' || e.key === 'д' || e.key === 'Д') && e.target.tagName !== 'INPUT') {
+          // Активация рисования линии
+          document.querySelector('.leaflet-draw-draw-polyline')?.click();
+        } else if (e.key === 'Delete' && e.target.tagName !== 'INPUT') {
+          // Активация рисования линии
+          document.querySelector('.leaflet-draw-edit-remove')?.click();
         }
       };
 
@@ -167,6 +192,7 @@ const TableList = () => {
       };
     }
   }, [map]);
+
 
   const editOptions = {
     edit: {
@@ -186,7 +212,7 @@ const TableList = () => {
 
   // Используйте кастомный хук
   useLeafletMapTools(map);
-  
+
 
 
   return (
