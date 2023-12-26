@@ -152,55 +152,8 @@ const TableList = () => {
   }, [map, baseViewCoords]);
 
   const mapRef = useRef(null);
-
-
-  // Функция для имитации клика по кнопке инструмента рисования
-  const simulateDrawClick = (selector) => {
-    const button = document.querySelector(selector);
-    if (button) {
-      button.click();
-    }
-  };
-
-  useEffect(() => {
-    if (map) {
-      // Add a keydown event listener to the document
-      const handleKeyPress = (e) => {
-        console.log(e.key)
-        // Переключение полноэкранного режима
-        if ((e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А') && e.target.tagName !== 'INPUT') {
-          mapRef.current.toggleFullscreen();
-        }
-        // Активация инструментов рисования
-        if ((e.key === 'r' || e.key === 'R' || e.key === 'к' || e.key === 'К') && e.target.tagName !== 'INPUT') {
-          // Активация рисования прямоугольника
-          document.querySelector('.leaflet-draw-draw-rectangle')?.click();
-        } if ((e.key === 'l'  || e.key === 'L' || e.key === 'д' || e.key === 'Д') && e.target.tagName !== 'INPUT') {
-          // Активация рисования линии
-          document.querySelector('.leaflet-draw-draw-polyline')?.click();
-        } else if (e.key === 'Delete' && e.target.tagName !== 'INPUT') {
-          // Активация рисования линии
-          document.querySelector('.leaflet-draw-edit-remove')?.click();
-        }
-      };
-
-      document.addEventListener('keydown', handleKeyPress);
-
-      // Remove the event listener when the component unmounts
-      return () => {
-        document.removeEventListener('keydown', handleKeyPress);
-      };
-    }
-  }, [map]);
-
-
-  const editOptions = {
-    edit: {
-      remove: true,
-    },
-  };
-
   const featureGroupRef = useRef();
+  useLeafletMapTools(map, mapRef);
 
   const onCreated = (e) => {
     // Обработка созданного слоя
@@ -209,10 +162,19 @@ const TableList = () => {
   };
 
 
-
-  // Используйте кастомный хук
-  useLeafletMapTools(map);
-
+  useEffect(() => {
+    const handleResize = () => {
+      if (mapRef.current) {
+        mapRef.current.invalidateSize();
+      }
+    };
+  
+    window.addEventListener('resize', handleResize);
+  
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
   return (
@@ -229,7 +191,10 @@ const TableList = () => {
           <MapContainer
             maxZoom={20}
             ref={mapRef}
-            whenReady={(mapEvent) => setMap(mapEvent.target)}
+            whenReady={(mapEvent) => {
+              setMap(mapEvent.target); 
+              mapRef.current = mapEvent.target;
+            }}
             attributionControl={false}
             center={baseViewCoords}
             zoom={13}
@@ -272,6 +237,7 @@ const TableList = () => {
                 onDeleted={(e) => console.log(e)}
                 edit={{
                   featureGroup: featureGroupRef.current,
+                  remove: true,
                 }}
               />
             </FeatureGroup>
