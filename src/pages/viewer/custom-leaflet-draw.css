@@ -22,3 +22,18 @@
 .leaflet-draw.leaflet-control {
     margin: 0px 10px;
 }
+
+.leaflet-control-custom {
+    position: absolute;
+    top: 250px; 
+    right: 0px; 
+    z-index: 1000;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 2px solid #ccc;   
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    
+}

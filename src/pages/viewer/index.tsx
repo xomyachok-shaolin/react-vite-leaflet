@@ -12,7 +12,7 @@ import {
 } from "@ant-design/pro-components";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Tabs } from "antd";
-import { UpOutlined, DownOutlined } from "@ant-design/icons";
+import { UpOutlined, DownOutlined, CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet.fullscreen/Control.FullScreen.css";
@@ -38,6 +38,8 @@ L.drawLocal.draw.toolbar.buttons.rectangle = 'Нарисовать прямоу�
 
 import useLeafletMapTools from './useLeafletMapTools';
 import './custom-leaflet-draw.css';
+import CustomTileLayer from "./CustomTileLayer";
+import CustomControl from "./CustomControl";
 
 const TableList = () => {
   const data = [
@@ -69,7 +71,7 @@ const TableList = () => {
       key: "main",
       label: "Основное",
       children: (
-        <div style={{ overflowY: "auto", height: "65vh" }}>
+        <div >
           {showFilter ? (
             <QueryFilter split labelWidth="auto" span={30} submitter={false}>
               <ProFormSwitch
@@ -102,7 +104,7 @@ const TableList = () => {
       label: "Дополнительное",
       disabled: !isSideBySide,
       children: (
-        <div style={{ overflowY: "auto" }}>
+        <div>
           <ProList
             ghost
             grid={{ column: 1 }}
@@ -158,23 +160,36 @@ const TableList = () => {
   const onCreated = (e) => {
     // Обработка созданного слоя
     const layer = e.layer;
-    featureGroupRef.current.addLayer(layer); // Добавить слой в FeatureGroup
+    // Добавить слой в FeatureGroup
+    featureGroupRef.current.addLayer(layer); 
   };
 
+// Состояние для контроля видимости ProCard
+  const [isProCardVisible, setIsProCardVisible] = useState(true); 
+
+  // Функция для переключения видимости ProCard
+  const toggleProCardVisibility = () => {
+    setIsProCardVisible(!isProCardVisible);
+  };
 
   useEffect(() => {
-    const handleResize = () => {
-      if (mapRef.current) {
-        mapRef.current.invalidateSize();
-      }
-    };
-  
-    window.addEventListener('resize', handleResize);
-  
+    if (!map) return;
+
+    const customControl = new CustomControl({
+      position: 'topright',
+      onClick: toggleProCardVisibility,
+      icon: isProCardVisible?<CaretRightOutlined /> : <CaretLeftOutlined />
+    });
+
+    customControl.addTo(map);
+    map.invalidateSize();
+
     return () => {
-      window.removeEventListener('resize', handleResize);
+      customControl.remove();
     };
-  }, []);
+  }, [map, isProCardVisible]);
+
+  
 
 
   return (
@@ -192,7 +207,7 @@ const TableList = () => {
             maxZoom={20}
             ref={mapRef}
             whenReady={(mapEvent) => {
-              setMap(mapEvent.target); 
+              setMap(mapEvent.target);
               mapRef.current = mapEvent.target;
             }}
             attributionControl={false}
@@ -219,8 +234,11 @@ const TableList = () => {
                 <Marker position={[-21.210309, -47.647063]}/>
             </MarkerMuster> */}
 
-            <TileLayer url={osmUrl} />
-            <TileLayer url={stamenUrl} />
+            <CustomTileLayer
+              url="https://tiles.stadiamaps.com/tiles/stamen_toner/{z}/{x}/{y}.png"
+            />
+            {/* <TileLayer url={osmUrl} /> */}
+            {/* <TileLayer url={stamenUrl} /> */}
 
 
             <FeatureGroup ref={featureGroupRef}>
@@ -240,12 +258,14 @@ const TableList = () => {
                   remove: true,
                 }}
               />
+             
             </FeatureGroup>
             <FullscreenControl position="topleft" />
 
           </MapContainer>
         </ProCard>
-        <ProCard colSpan="30%" style={{ height: "80vh" }}>
+        {isProCardVisible && (
+        <ProCard colSpan="35%" style={{height: "80vh", overflow: "auto" }}>
           <Tabs
             defaultActiveKey="main"
             // onChange={onTypeChange}
@@ -267,7 +287,7 @@ const TableList = () => {
                     <UpOutlined />
                   </>
                 ) : (
-                  <>
+                  <>ы
                     Развернуть
                     <DownOutlined />
                   </>
@@ -277,6 +297,7 @@ const TableList = () => {
             items={tabsItem}
           />
         </ProCard>
+)}
       </ProCard>
     </PageContainer>
   );
