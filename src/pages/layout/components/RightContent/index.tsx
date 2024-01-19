@@ -9,7 +9,6 @@ import Avatar from "./AvatarDropdown";
 import classes from "./index.module.less";
 import { useRecoilState } from "recoil";
 import { userState } from "@/stores/user";
-import HeaderSearch from "../HeaderSearch";
 
 export type SiderTheme = "light" | "dark";
 
@@ -45,7 +44,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
   return (
     <Space direction="horizontal">
-      <HeaderSearch
+      {/* <HeaderSearch
         className={`${classes.action} ${classes.search}`}
         placeholder="站内搜索"
         defaultValue="Ant Design"
@@ -66,7 +65,7 @@ const GlobalHeaderRight: React.FC = () => {
         onSearch={value => {
           console.log('input', value);
         }}
-      />
+      /> */}
       
       {!isMobile && (<Avatar />)}
     </Space>

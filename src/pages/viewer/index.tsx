@@ -19,7 +19,7 @@ import "leaflet.fullscreen/Control.FullScreen.css";
 import 'leaflet-fullscreen/dist/Leaflet.fullscreen.js';
 import L from "leaflet";
 import "leaflet-side-by-side";
-import MarkerClusterGroup from "react-leaflet-cluster";
+// import MarkerClusterGroup from "react-leaflet-cluster";
 import {
   MapContainer,
   FeatureGroup,
@@ -40,6 +40,7 @@ import useLeafletMapTools from './useLeafletMapTools';
 import './custom-leaflet-draw.css';
 import CustomTileLayer from "./CustomTileLayer";
 import CustomControl from "./CustomControl";
+import Minimap from "./Minimap";
 
 const TableList = () => {
   const data = [
@@ -134,6 +135,7 @@ const TableList = () => {
   const [baseViewCoords, setBaseViewCoords] = useState([37.715, 44.8611]);
   const [map, setMap] = useState();
 
+  /* SPLITTING MAPS */
   useEffect(() => {
     console.log(map);
     if (map) {
@@ -189,16 +191,13 @@ const TableList = () => {
     };
   }, [map, isProCardVisible]);
 
-  
-
-
   return (
     <PageContainer
       title={false}
       breadcrumbRender={false}
       style={{ background: "#f0f2f5", flex: "auto" }}
     >
-      <ProCard ghost style={{ position: "relative", marginTop: 16 }}>
+      <ProCard style={{ position: "relative", marginTop: 16 }}>
         <ProCard
           layout="center"
           style={{ position: "relative", height: "80vh" }}
@@ -214,7 +213,7 @@ const TableList = () => {
             center={baseViewCoords}
             zoom={13}
           >
-            <MarkerClusterGroup chunkedLoading>
+            {/* <MarkerClusterGroup chunkedLoading>
               <Marker position={[37.715, 44.8611]} />
               <Marker position={[37.8, 44.9]} />
               <Marker position={[37.2, 44.4]} />
@@ -227,7 +226,7 @@ const TableList = () => {
                   [37, 44.5],
                 ]}
               />
-            </MarkerClusterGroup>
+            </MarkerClusterGroup> */}
 
             {/* <MarkerMuster>
                 <Marker position={[-21.210309, -47.647063]}/>
@@ -263,6 +262,8 @@ const TableList = () => {
             <FullscreenControl position="topleft" />
 
           </MapContainer>
+          <Minimap mainMap={mapRef.current} />
+ 
         </ProCard>
         {isProCardVisible && (
         <ProCard colSpan="35%" style={{height: "80vh", overflow: "auto" }}>
@@ -287,7 +288,7 @@ const TableList = () => {
                     <UpOutlined />
                   </>
                 ) : (
-                  <>ы
+                  <>
                     Развернуть
                     <DownOutlined />
                   </>

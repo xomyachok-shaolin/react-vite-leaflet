@@ -47,5 +47,10 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    build: {
+      rollupOptions: {
+        external: ['@ant-design/icons', 'leaflet.fullscreen/Control.FullScreen.css']
+      }
+    }
   };
 });

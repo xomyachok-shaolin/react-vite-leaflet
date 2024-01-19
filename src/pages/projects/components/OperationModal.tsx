@@ -83,16 +83,16 @@ const OperationModal: FC<OperationModalProps> = (props) => {
           ]}
         />
 
-<ProFormColorPicker
+        <ProFormColorPicker
           name="color"
           label="color"
-  popup
-  blockStyles={{
-    width: '30px',
-    height: '30px',
-    borderRadius: '50%',
-  }}
-/>
+          popup
+          blockStyles={{
+            width: '30px',
+            height: '30px',
+            borderRadius: '50%',
+          }}
+        />
       </Form>
     );
   };

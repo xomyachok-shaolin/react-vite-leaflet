@@ -1,10 +1,10 @@
 {
-  "name": "admin-vite-ts",
+  "name": "react-vite-leaflet",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "start": "vite preview"
   },
   "dependencies": {
     "antd": "^4.24.15",
@@ -14,7 +14,9 @@
     "leaflet-draw": "^1.0.4",
     "leaflet-draw-locales": "^1.2.3",
     "leaflet-fullscreen": "^1.0.2",
+    "leaflet-minimap": "^3.6.1",
     "leaflet-side-by-side": "1.1.0",
+    "leaflet.fullscreen": "^3.0.0",
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
@@ -32,15 +34,17 @@
     "react-transition-group": "^4.4.5",
     "recoil": "^0.7.7",
     "screenfull": "^6.0.2",
+    "single-spa": "^6.0.0",
+    "single-spa-react": "^6.0.1",
     "stringify": "^5.2.0",
     "tailwindcss": "^3.4.0",
     "todomvc-app-css": "^2.4.3",
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
-    "@ant-design/pro-components": "^2.6.43",
-    "@ant-design/pro-field": "^2.14.2",
-    "@ant-design/pro-form": "^2.23.1",
+    "@ant-design/pro-components": "^2.6.34",
+    "@ant-design/pro-field": "^1.36.7",
+    "@ant-design/pro-form": "^1.74.7",
     "@ant-design/pro-layout": "^6.38.22",
     "@ant-design/pro-table": "^3.13.11",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
